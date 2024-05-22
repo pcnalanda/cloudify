@@ -1,0 +1,23 @@
+2024/05/19 04:43:59 [emerg] 1#1: no "events" section in configuration
+2024/05/19 04:48:19 [emerg] 1#1: no "events" section in configuration
+2024/05/19 04:48:46 [emerg] 1#1: no "events" section in configuration
+2024/05/19 04:52:02 [emerg] 1#1: no "events" section in configuration
+2024/05/19 05:22:28 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/19 07:03:24 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/22 01:05:10 [error] 29#29: *23 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost:8080"
+2024/05/22 01:15:00 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/22 01:21:07 [emerg] 1#1: "proxy_cache" zone "STATIC" is unknown in /etc/nginx/nginx.conf:77
+2024/05/22 01:22:18 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/22 01:24:19 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/22 01:28:00 [emerg] 1#1: "proxy_cache" zone "STATIC" is unknown in /etc/nginx/nginx.conf:65
+2024/05/22 04:18:29 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:15
+2024/05/22 04:24:01 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:27
+2024/05/22 04:27:28 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:27
+2024/05/22 04:30:55 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:27
+2024/05/22 04:31:03 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:27
+2024/05/22 04:34:49 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:27
+2024/05/22 04:35:32 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:15
+2024/05/22 04:35:35 [emerg] 1#1: host not found in upstream "nodejs_backend:3000" in /etc/nginx/nginx.conf:15
+2024/05/22 04:37:17 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/22 16:29:15 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/22 16:36:13 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7

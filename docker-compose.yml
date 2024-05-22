@@ -1,0 +1,180 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:80"  # Map Nginx to host port 8080
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/cache:/var/cache/nginx
+      - ./nginx/logs:/var/log/nginx
+      - ./pcv_projects:/var/www/html
+    depends_on:
+      - web1
+      - web2
+      - web3
+    networks:
+      - internal
+  web1:
+    image: php:7.4-apache
+    build: 
+      context: .
+      dockerfile: Dockerfile-php-apache
+    container_name: web1
+    ports:
+      - "8081:80"  # Map Apache container to host port 8081
+    volumes:
+      - ./pcv_projects:/var/www/html
+      - ./apache/server-name.conf:/etc/apache2/conf-available/server-name.conf
+    environment:
+      - SERVER_ID=web1
+      - MEMCACHED_HOST=memcached
+      - MEMCACHED_PORT=11212  # Custom Memcached port
+      - PHP_SESSION_SAVE_HANDLER=memcached
+      - PHP_SESSION_SAVE_PATH="memcached:11212"  # Custom Memcached port
+      - REDIS_HOST=redis
+    networks:
+      - internal
+    command: >
+      /bin/sh -c "ln -s /etc/apache2/conf-available/server-name.conf /etc/apache2/conf-enabled/server-name.conf && apache2-foreground"
+  web2:
+    image: php:7.4-apache
+    build: 
+      context: .
+      dockerfile: Dockerfile-php-apache
+    container_name: web2
+    ports:
+      - "8082:80"  # Map Apache container to host port 8082
+    volumes:
+      - ./pcv_projects:/var/www/html
+      - ./apache/server-name.conf:/etc/apache2/conf-available/server-name.conf
+    environment:
+      - SERVER_ID=web2
+      - MEMCACHED_HOST=memcached
+      - MEMCACHED_PORT=11212  # Custom Memcached port
+      - PHP_SESSION_SAVE_HANDLER=memcached
+      - PHP_SESSION_SAVE_PATH="memcached:11212"  # Custom Memcached port
+      - REDIS_HOST=redis
+    networks:
+      - internal
+    command: >
+      /bin/sh -c "ln -s /etc/apache2/conf-available/server-name.conf /etc/apache2/conf-enabled/server-name.conf && apache2-foreground"
+  web3:
+    image: php:7.4-apache
+    build: 
+      context: .
+      dockerfile: Dockerfile-php-apache
+    container_name: web3
+    ports:
+      - "8083:80"  # Map Apache container to host port 8083
+    volumes:
+      - ./pcv_projects:/var/www/html
+      - ./apache/server-name.conf:/etc/apache2/conf-available/server-name.conf
+    environment:
+      - SERVER_ID=web3
+      - MEMCACHED_HOST=memcached
+      - MEMCACHED_PORT=11212  # Custom Memcached port
+      - PHP_SESSION_SAVE_HANDLER=memcached
+      - PHP_SESSION_SAVE_PATH="memcached:11212"  # Custom Memcached port
+      - REDIS_HOST=redis
+    networks:
+      - internal
+    command: >
+      /bin/sh -c "ln -s /etc/apache2/conf-available/server-name.conf /etc/apache2/conf-enabled/server-name.conf && apache2-foreground"
+    
+  mysql_master_database:
+    image: mysql:8.0.30
+    container_name: mysql_master_database
+    restart: unless-stopped
+    ports:
+      - "3340:3306"  # Map MySQL master to host port 3340
+    environment:
+      MYSQL_ROOT_PASSWORD: S3cret
+      MYSQL_DATABASE: pcv_test_db
+      MYSQL_USER: pcv
+      MYSQL_PASSWORD: password
+      TZ: UTC
+    volumes:
+      - ./master.cnf:/etc/mysql/conf.d/master.cnf
+      - ./mysql/master_database:/var/lib/mysql
+      - /usr/share/zoneinfo:/usr/share/zoneinfo:ro
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount initialization script
+    networks:
+      - internal
+  mysql_slave1_database:
+    image: mysql:8.0.30
+    container_name: mysql_slave1_database
+    restart: unless-stopped
+    depends_on:
+      - mysql_master_database
+    ports:
+      - "3341:3306"  # Map MySQL slave to host port 3341
+    environment:
+      MYSQL_ROOT_PASSWORD: S3cret
+      MYSQL_DATABASE: pcv_test_db
+      MYSQL_USER: pcv
+      MYSQL_PASSWORD: password
+      TZ: UTC
+    volumes:
+      - ./slave1.cnf:/etc/mysql/conf.d/slave1.cnf
+      - ./mysql/slave1_database:/var/lib/mysql
+      - /usr/share/zoneinfo:/usr/share/zoneinfo:ro
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount initialization script
+    networks:
+      - internal
+
+  mysql_slave2_database:
+    image: mysql:8.0.30
+    container_name: mysql_slave2_database
+    restart: unless-stopped
+    depends_on:
+      - mysql_master_database
+    ports:
+      - "3342:3306"  # Map MySQL slave to host port 3342
+    environment:
+      MYSQL_ROOT_PASSWORD: S3cret
+      MYSQL_DATABASE: pcv_test_db
+      MYSQL_USER: pcv
+      MYSQL_PASSWORD: password
+      TZ: UTC
+    volumes:
+      - ./slave2.cnf:/etc/mysql/conf.d/slave2.cnf
+      - ./mysql/slave2_database:/var/lib/mysql
+      - /usr/share/zoneinfo:/usr/share/zoneinfo:ro
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount initialization script
+    networks:
+      - internal
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"  # Map MongoDB container to host port 27017
+    volumes:
+      - ./mongodb/data:/data/db
+    networks:
+      - internal
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11212:11211"  # Custom Memcached port mapping
+    networks:
+      - internal
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6380:6379"  # Custom Redis port mapping
+    volumes:
+      - ./redis/data:/data
+    networks:
+      - internal
+
+networks:
+  internal:
+    name: internal
