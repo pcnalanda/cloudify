@@ -35,7 +35,7 @@ function executeQuery($sql, $operation = 'SELECT') {
     } else {
         // Randomly choose a slave database for read operations
         $slave = array('slave1', 'slave2')[array_rand(array('slave1', 'slave2'))];
-        print_r($config[$slave]);
+        echo '<div align="center"><b>'.$config[$slave]['host'] . '</b></div><br />';
         $conn = mysqli_connect($config[$slave]['host'], $config[$slave]['username'], $config[$slave]['password'], $config[$slave]['database'], $config[$slave]['port']);
     }
 

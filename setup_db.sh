@@ -5,9 +5,9 @@ sql_slave_user="CREATE USER 'mydb_slave_user'@'%' IDENTIFIED WITH 'mysql_native_
 docker exec mysql_master_database sh -c "mysql -u root -pS3cret -e \"$sql_slave_user\""
 
 # Get master status
-MS_STATUS=$(docker exec mysql_master_database sh -c 'mysql -u root -pS3cret -e "SHOW MASTER STATUS"')
-CURRENT_LOG=$(echo $MS_STATUS | awk '{print $6}')
-CURRENT_POS=$(echo $MS_STATUS | awk '{print $7}')
+MS_STATUS=$(docker exec mysql_master_database sh -c 'mysql -u root -pS3cret -e "SHOW MASTER STATUS \G"')
+CURRENT_LOG=$(echo "$MS_STATUS" | grep "File:" | awk '{print $2}')
+CURRENT_POS=$(echo "$MS_STATUS" | grep "Position:" | awk '{print $2}')
 
 # Function to setup a slave
 setup_slave() {
@@ -17,7 +17,7 @@ setup_slave() {
   docker exec $slave_container sh -c "mysql -u root -pS3cret -e 'STOP SLAVE;'"
 
   # Configure the slave to connect to the master
-  sql_set_master="CHANGE MASTER TO MASTER_HOST='mysql_master_database',MASTER_USER='mydb_slave_user',MASTER_PASSWORD='mydb_slave_pwd',MASTER_LOG_FILE='$CURRENT_LOG',MASTER_LOG_POS=$CURRENT_POS, MASTER_DELAY=15; START SLAVE;"
+  sql_set_master="CHANGE MASTER TO MASTER_HOST='mysql_master_database',MASTER_USER='mydb_slave_user',MASTER_PASSWORD='mydb_slave_pwd',MASTER_LOG_FILE='$CURRENT_LOG',MASTER_LOG_POS=$CURRENT_POS, MASTER_DELAY=5; START SLAVE;"
   start_slave_cmd="mysql -u root -pS3cret -e \"$sql_set_master\""
   docker exec $slave_container sh -c "$start_slave_cmd"
 
