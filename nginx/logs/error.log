@@ -21,3 +21,5 @@
 2024/05/22 04:37:17 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
 2024/05/22 16:29:15 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
 2024/05/22 16:36:13 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/23 02:30:16 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/23 02:32:03 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
