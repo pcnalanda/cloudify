@@ -23,3 +23,9 @@
 2024/05/22 16:36:13 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
 2024/05/23 02:30:16 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
 2024/05/23 02:32:03 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/28 02:53:07 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/28 02:54:34 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/28 02:55:28 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/28 02:57:58 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/05/28 03:40:27 [emerg] 1#1: host not found in upstream "nodejs_director" in /etc/nginx/nginx.conf:60
+2024/05/28 03:41:45 [emerg] 1#1: host not found in upstream "nodejs:3000" in /etc/nginx/nginx.conf:19

@@ -15,6 +15,7 @@ services:
       - web1
       - web2
       - web3
+      - nodejs
     networks:
       - internal
   web1:
@@ -83,7 +84,15 @@ services:
       - internal
     command: >
       /bin/sh -c "ln -s /etc/apache2/conf-available/server-name.conf /etc/apache2/conf-enabled/server-name.conf && apache2-foreground"
-    
+  nodejs:
+    build: 
+      context: ./nodejs_app
+    container_name: nodejs
+    ports:
+      - "3000:3000"
+    networks:
+      - internal   
+
   mysql_master_database:
     image: mysql:8.0.30
     container_name: mysql_master_database
