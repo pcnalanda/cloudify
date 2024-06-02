@@ -16,6 +16,7 @@ services:
       - web2
       - web3
       - nodejs
+      - springboot
     networks:
       - internal
   web1:
@@ -84,6 +85,31 @@ services:
       - internal
     command: >
       /bin/sh -c "ln -s /etc/apache2/conf-available/server-name.conf /etc/apache2/conf-enabled/server-name.conf && apache2-foreground"
+  
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"  # Zookeeper port
+    networks:
+      - internal
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"  # Kafka port
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:9093
+    depends_on:
+      - zookeeper
+    networks:
+      - internal
+      
   nodejs:
     build: 
       context: ./nodejs_app
@@ -92,6 +118,20 @@ services:
       - "3000:3000"
     networks:
       - internal   
+
+  springboot:
+    build: 
+      context: ./springboot-app
+    container_name: springboot
+    volumes:
+      - ./springboot-app/src:/app/src
+      - ./springboot-app/target:/app/target
+    environment:
+      - "SPRING_DEVTOOLS_RESTART_ENABLED=true"
+    ports:
+      - "8084:8080"
+    networks:
+      - internal
 
   mysql_master_database:
     image: mysql:8.0.30

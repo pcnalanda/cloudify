@@ -63,7 +63,7 @@ function executeQuery($sql, $operation = 'SELECT') {
 
 function showServerIP(){
     echo '<table align="center" border="0"><tr><td>Backend SERVER IP:'.$_SERVER['SERVER_ADDR'].'</td><td>Custom SERVER-ID: '.getenv('SERVER_ID').' </td><td><img src="/nginx-proxy.png" width="100"/></td></tr></t/able>';
-    echo '<br /><br /><br /><div align="center"><a href="insert-data.php">Add More Record</a> | <a href="member-list.php">Show Member List</a></div><br />';
+    echo '<br /><br /><br /><div align="center"><a href="insert-data.php">Add More Record</a> | <a href="member-list.php">Show Member List</a> | <a href="http://localhost:8080/project2/"  target="_blank">Project 2</a> | <a href="http://localhost:8080/nodejs/" target="_blank">Node JS App</a> | <a href="http://localhost:8084/springboot" target="_blank">Java Spring boot</a></div><br />';
     return;
 }
 ?>
