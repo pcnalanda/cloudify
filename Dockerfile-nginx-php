@@ -1,0 +1,14 @@
+FROM nginx:latest
+
+# Copy your Nginx configuration file
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Copy your application files
+COPY ./pcv_projects /var/www/html
+
+# Set permissions (if needed)
+RUN chown -R www-data:www-data /var/www/html
+
+# Expose the port Nginx is listening on
+EXPOSE 80

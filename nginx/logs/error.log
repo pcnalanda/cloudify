@@ -34,3 +34,20 @@
 2024/05/31 04:15:12 [error] 29#29: *1 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 172.26.0.1, server: localhost, request: "GET /project2/kafka-consumer.php HTTP/1.1", upstream: "http://172.26.0.3:80/project2/kafka-consumer.php", host: "localhost:8080"
 2024/05/31 04:16:12 [error] 29#29: *1 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 172.26.0.1, server: localhost, request: "GET /project2/kafka-consumer.php HTTP/1.1", upstream: "http://172.26.0.9:80/project2/kafka-consumer.php", host: "localhost:8080"
 2024/06/02 05:58:19 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/06/02 07:50:16 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/09/18 00:51:39 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/09/18 01:50:43 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:7
+2024/09/18 03:00:28 [error] 29#29: *10 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.18.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost:8080"
+2024/09/18 03:00:28 [error] 29#29: *10 open() "/usr/share/nginx/html/404.html" failed (2: No such file or directory), client: 172.18.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost:8080"
+2024/09/18 03:06:21 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:16
+2024/09/18 03:11:17 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:16
+2024/09/19 02:15:00 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:16
+2024/09/19 03:10:40 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:16
+2024/09/19 03:46:07 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:9
+2024/09/19 03:48:36 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:9
+2024/09/19 03:49:44 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:9
+2024/09/19 03:51:07 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:9
+2024/09/19 03:51:19 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:9
+2024/09/19 03:52:52 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:9
+2024/09/19 04:04:47 [emerg] 1#1: host not found in upstream "web4_nginx:80" in /etc/nginx/nginx.conf:8
+2024/09/19 04:18:21 [emerg] 1#1: host not found in upstream "web1:80" in /etc/nginx/nginx.conf:12

@@ -10,5 +10,5 @@ CREATE TABLE `members` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-insert into members(username,email,mobile,password) values('prafull','pcv_test1@gmail.com','1077192638','123456');
-insert into members(username,email,mobile,password) values('sparsh', 'pcv_test2@gmail.com','1000182028','123456');
+insert into members(username,email,mobile,password) values('prafullv','pcv_test1@gmail.com','1077192638','123456');
+insert into members(username,email,mobile,password) values('sparshv', 'pcv_test2@gmail.com','1000182028','123456');

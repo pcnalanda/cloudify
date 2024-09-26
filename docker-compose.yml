@@ -1,20 +1,21 @@
 version: '3.8'
 
 services:
-  nginx:
+  nginx_lb:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginx_lb
     ports:
-      - "8080:80"  # Map Nginx to host port 8080
+      - "8080:80"  # Expose the load balancer on host port 8080
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/cache:/var/cache/nginx
-      - ./nginx/logs:/var/log/nginx
-      - ./pcv_projects:/var/www/html
+      - ./nginx/nginx_lb.conf:/etc/nginx/nginx.conf  # Nginx config for load balancing
+      - ./nginx/cache:/var/cache/nginx  # Cache path
+      - ./nginx/logs:/var/log/nginx  # Log files
     depends_on:
       - web1
       - web2
       - web3
+      - web4_nginx
+      - web5_nginx
       - nodejs
       - springboot
     networks:
@@ -28,7 +29,7 @@ services:
     ports:
       - "8081:80"  # Map Apache container to host port 8081
     volumes:
-      - ./pcv_projects:/var/www/html
+      - ./pcv_projects/default_server:/var/www/html
       - ./apache/server-name.conf:/etc/apache2/conf-available/server-name.conf
     environment:
       - SERVER_ID=web1
@@ -50,7 +51,7 @@ services:
     ports:
       - "8082:80"  # Map Apache container to host port 8082
     volumes:
-      - ./pcv_projects:/var/www/html
+      - ./pcv_projects/server2:/var/www/html
       - ./apache/server-name.conf:/etc/apache2/conf-available/server-name.conf
     environment:
       - SERVER_ID=web2
@@ -72,7 +73,7 @@ services:
     ports:
       - "8083:80"  # Map Apache container to host port 8083
     volumes:
-      - ./pcv_projects:/var/www/html
+      - ./pcv_projects/default_server:/var/www/html
       - ./apache/server-name.conf:/etc/apache2/conf-available/server-name.conf
     environment:
       - SERVER_ID=web3
@@ -85,7 +86,70 @@ services:
       - internal
     command: >
       /bin/sh -c "ln -s /etc/apache2/conf-available/server-name.conf /etc/apache2/conf-enabled/server-name.conf && apache2-foreground"
-  
+  web4_nginx:
+    image: nginx:latest
+    container_name: web4_nginx
+    ports:
+      - "8084:80"  # Map Nginx container to host port 8084
+    volumes:
+      - ./pcv_projects/default_server:/var/www/html  # Your project directory
+      - ./nginx/nginx_webserver4.conf:/etc/nginx/nginx.conf  # Nginx web server config
+      - ./nginx/snippets:/etc/nginx/snippets  # Snippets directory for fastcgi
+    environment:
+      - SERVER_ID=web4_nginx
+      - MEMCACHED_HOST=memcached
+      - MEMCACHED_PORT=11212  # Custom Memcached port
+      - PHP_SESSION_SAVE_HANDLER=memcached
+      - PHP_SESSION_SAVE_PATH="memcached:11212"  # Custom Memcached port
+      - REDIS_HOST=redis
+    depends_on:
+      - php_fpm_web4_nginx  # Depends on PHP-FPM for handling PHP requests
+    networks:
+      - internal
+
+    # PHP-FPM Service
+  php_fpm_web4_nginx:
+    image: php:7.4-fpm
+    container_name: php_fpm_web4_nginx
+    ports:
+      - "9000:9000"  # PHP-FPM for web5_nginx on a different port
+    volumes:
+      - ./pcv_projects/default_server:/var/www/html  # web4_nginx PHP files
+    networks:
+      - internal
+
+  web5_nginx:
+    image: nginx:latest
+    container_name: web5_nginx
+    ports:
+      - "8085:80"  # Map Nginx container to host port 8085
+    volumes:
+      - ./pcv_projects/server2:/var/www/html  # Your project directory
+      - ./nginx/nginx_webserver5.conf:/etc/nginx/nginx.conf  # Nginx web server config
+      - ./nginx/snippets:/etc/nginx/snippets  # Snippets directory for fastcgi
+    environment:
+      - SERVER_ID=web5_nginx
+      - MEMCACHED_HOST=memcached
+      - MEMCACHED_PORT=11212  # Custom Memcached port
+      - PHP_SESSION_SAVE_HANDLER=memcached
+      - PHP_SESSION_SAVE_PATH="memcached:11212"  # Custom Memcached port
+      - REDIS_HOST=redis
+    depends_on:
+      - php_fpm_web5_nginx  # Depends on PHP-FPM for handling PHP requests
+    networks:
+      - internal
+
+  # PHP-FPM Service
+  php_fpm_web5_nginx:
+    image: php:7.4-fpm
+    container_name: php_fpm_web5_nginx
+    ports:
+      - "9001:9000"  # PHP-FPM for web5_nginx on a different port
+    volumes:
+      - ./pcv_projects/server2:/var/www/html  # web5_nginx PHP files
+    networks:
+      - internal
+
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper
@@ -129,7 +193,7 @@ services:
     environment:
       - "SPRING_DEVTOOLS_RESTART_ENABLED=true"
     ports:
-      - "8084:8080"
+      - "8086:8080"
     networks:
       - internal
 

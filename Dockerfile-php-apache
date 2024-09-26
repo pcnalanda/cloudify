@@ -1,23 +1,23 @@
 FROM php:7.4-apache
 
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y \
-        libcurl4-openssl-dev \
-        libssl-dev \
-        libzip-dev \
-        unzip \
-        curl \
-        git \
-        librdkafka-dev \
-    && pecl install rdkafka \
-    && docker-php-ext-enable rdkafka
+#RUN apt-get update && \
+#    apt-get install -y \
+#        libcurl4-openssl-dev \
+#        libssl-dev \
+#        libzip-dev \
+#        unzip \
+#        curl \
+#       git \
+#        librdkafka-dev \
+#    && pecl install rdkafka \
+#    && docker-php-ext-enable rdkafka
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
 # Copy the PHP scripts into the container
-COPY ./pcv_projects /var/www/html
+#COPY ./pcv_projects /var/www/html
 
 # Restart Apache service
-CMD ["apache2-foreground"]
+#CMD ["apache2-foreground"]
